@@ -60,3 +60,18 @@ def delete(id: int):
         pickle.dump(tasks, arq)
 
     return {"message": "task deleted"}
+
+
+@app.post('/change_status')
+def change(id: int):
+    with open('tasks.pkl', 'rb') as arq:
+        tasks = pickle.load(arq)
+    try:
+        tasks[id].done = not tasks[id].done  
+    except IndexError as e:
+        return {"error": "index does not exist"}
+
+    with open('tasks.pkl', 'wb') as arq:
+        pickle.dump(tasks, arq)
+
+    return {"message": "task updated"}
