@@ -47,3 +47,16 @@ def insert(todo_task: TodoTask):
         pickle.dump(tasks, arq)
 
     return {"message": "task registered"}
+
+
+@app.post('/delete_task')
+def delete(id: int):
+    with open('tasks.pkl', 'rb') as arq:
+        tasks = pickle.load(arq)
+
+    tasks.pop(id)
+
+    with open('tasks.pkl', 'wb') as arq:
+        pickle.dump(tasks, arq)
+
+    return {"message": "task deleted"}
