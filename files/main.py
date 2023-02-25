@@ -34,3 +34,16 @@ def tasks_list(option: str):
         return tasks_list
     else:
         return {"error": "error when trying to read the tasks list"}
+
+
+@app.post('/insert_task')
+def insert(todo_task: TodoTask):
+    with open('tasks.pkl', 'rb') as arq:
+        tasks = pickle.load(arq)
+
+    tasks.append(todo_task)
+
+    with open('tasks.pkl', 'wb') as arq:
+        pickle.dump(tasks, arq)
+
+    return {"message": "task registered"}
